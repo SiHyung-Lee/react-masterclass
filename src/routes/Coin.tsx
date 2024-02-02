@@ -1,19 +1,10 @@
-import { useParams } from 'react-router';
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router';
+import { Route, Routes, useLocation, Link, useMatch } from 'react-router-dom';
+import styled from 'styled-components';
+import Price from './Price';
+import Chart from './Chart';
 
-const Container = styled.div`
-    padding: 0 20px;
-    max-width: 480px;
-    margin: 0 auto;
-`;
-const Header = styled.header`
-    height: 10vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
 const Title = styled.h1`
     font-size: 48px;
     color: ${(props) => props.theme.accentColor};
@@ -22,6 +13,64 @@ const Title = styled.h1`
 const Loader = styled.span`
     text-align: center;
     display: block;
+`;
+
+const Container = styled.div`
+    padding: 0 20px;
+    max-width: 480px;
+    margin: 0 auto;
+`;
+
+const Header = styled.header`
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Overview = styled.div`
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 10px;
+`;
+const OverviewItem = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    span:first-child {
+        font-size: 10px;
+        font-weight: 400;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+`;
+const Description = styled.p`
+    margin: 20px 0;
+`;
+
+const Tabs = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 25px 0;
+    gap: 10px;
+`;
+
+const Tab = styled.span<{ isActive: boolean }>`
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 400;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 7px 0;
+    border-radius: 10px;
+    color: ${(props) =>
+        props.isActive ? props.theme.accentColor : props.theme.textColor};
+    a {
+        display: block;
+    }
 `;
 
 interface RouteState {
@@ -91,6 +140,9 @@ function Coin() {
     const { state } = useLocation() as RouteState;
     const [info, setInfo] = useState<InfoData>();
     const [priceInfo, setPriceInfo] = useState<PriceData>();
+    const priceMatch = useMatch('/:coinId/price');
+    const chartMatch = useMatch('/:coinId/chart');
+    console.log(priceMatch, chartMatch);
 
     useEffect(() => {
         (async () => {
@@ -102,15 +154,63 @@ function Coin() {
             ).json();
             setInfo(infoData);
             setPriceInfo(priceData);
+            setLoading(false);
         })();
-    }, []);
-
+    }, [coinId]);
     return (
         <Container>
             <Header>
-                <Title>{state?.name || 'Loading...'}</Title>
+                <Title>
+                    {state?.name
+                        ? state.name
+                        : loading
+                          ? 'Loading...'
+                          : info?.name}
+                </Title>
             </Header>
-            {loading ? <Loader>"Loading..."</Loader> : null}
+            {loading ? (
+                <Loader>"Loading..."</Loader>
+            ) : (
+                <>
+                    <Overview>
+                        <OverviewItem>
+                            <span>Rank:</span>
+                            <span>{info?.rank}</span>
+                        </OverviewItem>
+                        <OverviewItem>
+                            <span>Symbol:</span>
+                            <span>{info?.symbol}</span>
+                        </OverviewItem>
+                        <OverviewItem>
+                            <span>Open Source:</span>
+                            <span>{info?.open_source ? 'Yes' : 'No'}</span>
+                        </OverviewItem>
+                    </Overview>
+                    <Description>{info?.description}</Description>
+                    <Overview>
+                        <OverviewItem>
+                            <span>Total Supply:</span>
+                            <span>{priceInfo?.total_supply}</span>
+                        </OverviewItem>
+                        <OverviewItem>
+                            <span>Max Supply:</span>
+                            <span>{priceInfo?.max_supply}</span>
+                        </OverviewItem>
+                    </Overview>
+                    <Tabs>
+                        <Tab isActive={priceMatch !== null}>
+                            <Link to="price">Price</Link>
+                        </Tab>
+                        <Tab isActive={chartMatch !== null}>
+                            <Link to="chart">Chart</Link>
+                        </Tab>
+                    </Tabs>
+                    <Routes>
+                        <Route path="price" element={<Price />} />
+                        <Route path="chart" element={<Chart />} />
+                    </Routes>
+                </>
+            )}
         </Container>
     );
 }
