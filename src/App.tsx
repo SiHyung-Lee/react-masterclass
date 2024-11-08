@@ -2,125 +2,65 @@ import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-    @import url('https://fonts.googleapis.com/css2?family=Baskervville&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-    /* Reset CSS v2.0 */
-
-    /* Box sizing rules */
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
+    @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, menu, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    main, menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
         margin: 0;
         padding: 0;
-    }
-
-    /* Remove default margin and padding */
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    figure,
-    blockquote,
-    dl,
-    dd {
-        margin: 0;
-    }
-
-    /* Remove list styles on ul, ol elements */
-    ul,
-    ol {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    /* Set core root defaults */
-    html:focus-within {
-        scroll-behavior: smooth;
-    }
-
-    /* Set core body defaults */
-    body {
-        min-height: 100vh;
-        text-rendering: optimizeSpeed;
-        line-height: 1.5;
-        -webkit-font-smoothing: antialiased;
-        background-color: ${(props) => props.theme.bgColor};
-        color: ${(props) => props.theme.textColor};
-    }
-
-    /* Make images easier to work with */
-    img,
-    picture,
-    video,
-    canvas,
-    svg {
-        display: block;
-        max-width: 100%;
-    }
-
-    /* Remove built-in form typography styles */
-    input,
-    button,
-    textarea,
-    select {
+        border: 0;
+        font-size: 100%;
         font: inherit;
+        vertical-align: baseline;
     }
-
-    /* Avoid text overflows */
-    p,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        overflow-wrap: break-word;
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure,
+    footer, header, hgroup, main, menu, nav, section {
+        display: block;
     }
-
-    /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
-    @media (prefers-reduced-motion: reduce) {
-        html:focus-within {
-            scroll-behavior: auto;
-        }
-
-        *,
-        *::before,
-        *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-            scroll-behavior: auto !important;
-        }
+    /* HTML5 hidden-attribute fix for newer browsers */
+    *[hidden] {
+        display: none;
     }
-
-    /* Reset tables */
+    body {
+        line-height: 1;
+    }
+    menu, ol, ul {
+        list-style: none;
+    }
+    blockquote, q {
+        quotes: none;
+    }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none;
+    }
     table {
         border-collapse: collapse;
         border-spacing: 0;
     }
-
-    /* Reset anchor text decoration */
-    a {
-        text-decoration: none;
-        color: inherit;
+    * {
+        box-sizing: border-box;
     }
-
-    /* Remove default button styles */
-    button {
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-    }
-
-    /* Set default font family */
     body {
-        font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+        font-family: 'Source Sans Pro', sans-serif;
+        background-color:${(props) => props.theme.bgColor};
+        color:${(props) => props.theme.textColor}
+    }
+    a {
+        text-decoration:none;
+        color:inherit;
     }
 `;
 

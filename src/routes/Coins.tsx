@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -15,7 +15,7 @@ const Header = styled.header`
   align-items: center;
 `;
 
-const CoinList = styled.ul``;
+const CoinsList = styled.ul``;
 
 const Coin = styled.li`
   background-color: white;
@@ -23,9 +23,10 @@ const Coin = styled.li`
   border-radius: 15px;
   margin-bottom: 10px;
   a {
+    display: flex;
+    align-items: center;
     padding: 20px;
     transition: color 0.2s ease-in;
-    display: block;
   }
   &:hover {
     a {
@@ -41,6 +42,12 @@ const Title = styled.h1`
 
 const Loader = styled.div`
   text-align: center;
+`;
+
+const Img = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
 `;
 
 interface CoinInterface {
@@ -74,13 +81,16 @@ function Coins() {
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
-        <CoinList>
+        <CoinsList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
-              <Link to={coin.id}>{coin.name} &rarr;</Link>
+              <Link to={{
+                pathname: `/${coin.id}`,
+                state: {name: coin.name}
+              }}><Img src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`} alt={coin.name}/>{coin.name} &rarr;</Link>
             </Coin>
           ))}
-        </CoinList>
+        </CoinsList>
       )}
     </Container>
   );
